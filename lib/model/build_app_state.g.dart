@@ -65,6 +65,20 @@ class _$BuildAppStateSerializer implements StructuredSerializer<BuildAppState> {
             specifiedType: const FullType(
                 BuiltList, const [const FullType(BuildTvshows)])));
     }
+    value = object.movieforid;
+    if (value != null) {
+      result
+        ..add('movieforid')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(BuildMovie)));
+    }
+    value = object.castforid;
+    if (value != null) {
+      result
+        ..add('castforid')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(BuildCast)));
+    }
     return result;
   }
 
@@ -116,6 +130,14 @@ class _$BuildAppStateSerializer implements StructuredSerializer<BuildAppState> {
                       BuiltList, const [const FullType(BuildMovie)]))!
               as BuiltList<Object?>);
           break;
+        case 'movieforid':
+          result.movieforid.replace(serializers.deserialize(value,
+              specifiedType: const FullType(BuildMovie))! as BuildMovie);
+          break;
+        case 'castforid':
+          result.castforid.replace(serializers.deserialize(value,
+              specifiedType: const FullType(BuildCast))! as BuildCast);
+          break;
       }
     }
 
@@ -136,6 +158,10 @@ class _$BuildAppState extends BuildAppState {
   final BuiltList<BuildTvshows>? TvShowsCast;
   @override
   final BuiltList<BuildMovie> Popular;
+  @override
+  final BuildMovie? movieforid;
+  @override
+  final BuildCast? castforid;
 
   factory _$BuildAppState([void Function(BuildAppStateBuilder)? updates]) =>
       (new BuildAppStateBuilder()..update(updates))._build();
@@ -146,7 +172,9 @@ class _$BuildAppState extends BuildAppState {
       this.CastMovie,
       this.MoviesCast,
       this.TvShowsCast,
-      required this.Popular})
+      required this.Popular,
+      this.movieforid,
+      this.castforid})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(Popular, r'BuildAppState', 'Popular');
   }
@@ -167,7 +195,9 @@ class _$BuildAppState extends BuildAppState {
         CastMovie == other.CastMovie &&
         MoviesCast == other.MoviesCast &&
         TvShowsCast == other.TvShowsCast &&
-        Popular == other.Popular;
+        Popular == other.Popular &&
+        movieforid == other.movieforid &&
+        castforid == other.castforid;
   }
 
   @override
@@ -179,6 +209,8 @@ class _$BuildAppState extends BuildAppState {
     _$hash = $jc(_$hash, MoviesCast.hashCode);
     _$hash = $jc(_$hash, TvShowsCast.hashCode);
     _$hash = $jc(_$hash, Popular.hashCode);
+    _$hash = $jc(_$hash, movieforid.hashCode);
+    _$hash = $jc(_$hash, castforid.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -191,7 +223,9 @@ class _$BuildAppState extends BuildAppState {
           ..add('CastMovie', CastMovie)
           ..add('MoviesCast', MoviesCast)
           ..add('TvShowsCast', TvShowsCast)
-          ..add('Popular', Popular))
+          ..add('Popular', Popular)
+          ..add('movieforid', movieforid)
+          ..add('castforid', castforid))
         .toString();
   }
 }
@@ -235,6 +269,17 @@ class BuildAppStateBuilder
       _$this._Popular ??= new ListBuilder<BuildMovie>();
   set Popular(ListBuilder<BuildMovie>? Popular) => _$this._Popular = Popular;
 
+  BuildMovieBuilder? _movieforid;
+  BuildMovieBuilder get movieforid =>
+      _$this._movieforid ??= new BuildMovieBuilder();
+  set movieforid(BuildMovieBuilder? movieforid) =>
+      _$this._movieforid = movieforid;
+
+  BuildCastBuilder? _castforid;
+  BuildCastBuilder get castforid =>
+      _$this._castforid ??= new BuildCastBuilder();
+  set castforid(BuildCastBuilder? castforid) => _$this._castforid = castforid;
+
   BuildAppStateBuilder();
 
   BuildAppStateBuilder get _$this {
@@ -246,6 +291,8 @@ class BuildAppStateBuilder
       _MoviesCast = $v.MoviesCast?.toBuilder();
       _TvShowsCast = $v.TvShowsCast?.toBuilder();
       _Popular = $v.Popular.toBuilder();
+      _movieforid = $v.movieforid?.toBuilder();
+      _castforid = $v.castforid?.toBuilder();
       _$v = null;
     }
     return this;
@@ -275,7 +322,9 @@ class BuildAppStateBuilder
               CastMovie: _CastMovie?.build(),
               MoviesCast: _MoviesCast?.build(),
               TvShowsCast: _TvShowsCast?.build(),
-              Popular: Popular.build());
+              Popular: Popular.build(),
+              movieforid: _movieforid?.build(),
+              castforid: _castforid?.build());
     } catch (_) {
       late String _$failedField;
       try {
@@ -291,6 +340,10 @@ class BuildAppStateBuilder
         _TvShowsCast?.build();
         _$failedField = 'Popular';
         Popular.build();
+        _$failedField = 'movieforid';
+        _movieforid?.build();
+        _$failedField = 'castforid';
+        _castforid?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'BuildAppState', _$failedField, e.toString());

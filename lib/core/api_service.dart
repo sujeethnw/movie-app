@@ -16,4 +16,7 @@ abstract class ApiService {
  Future< BuiltList<BuildMovie>> getMoviesCast({required int id});
 
  Future< BuiltList<BuildTvshows>> getTvShowsCast({required int id});
+ Future<BuildMovie> getMovieforID({required int id});
+
+ Future<BuildCast> getCastforId({required int id});
 }

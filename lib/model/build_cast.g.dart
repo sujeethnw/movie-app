@@ -17,11 +17,15 @@ class _$BuildCastSerializer implements StructuredSerializer<BuildCast> {
   @override
   Iterable<Object?> serialize(Serializers serializers, BuildCast object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[
-      'adult',
-      serializers.serialize(object.adult, specifiedType: const FullType(bool)),
-    ];
+    final result = <Object?>[];
     Object? value;
+    value = object.adult;
+    if (value != null) {
+      result
+        ..add('adult')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
+    }
     value = object.gender;
     if (value != null) {
       result
@@ -110,7 +114,7 @@ class _$BuildCastSerializer implements StructuredSerializer<BuildCast> {
       switch (key) {
         case 'adult':
           result.adult = serializers.deserialize(value,
-              specifiedType: const FullType(bool))! as bool;
+              specifiedType: const FullType(bool)) as bool?;
           break;
         case 'gender':
           result.gender = serializers.deserialize(value,
@@ -165,7 +169,7 @@ class _$BuildCastSerializer implements StructuredSerializer<BuildCast> {
 
 class _$BuildCast extends BuildCast {
   @override
-  final bool adult;
+  final bool? adult;
   @override
   final int? gender;
   @override
@@ -193,7 +197,7 @@ class _$BuildCast extends BuildCast {
       (new BuildCastBuilder()..update(updates))._build();
 
   _$BuildCast._(
-      {required this.adult,
+      {this.adult,
       this.gender,
       this.id,
       this.knownfordepartmnet,
@@ -205,9 +209,7 @@ class _$BuildCast extends BuildCast {
       this.character,
       this.creditid,
       this.order})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(adult, r'BuildCast', 'adult');
-  }
+      : super._();
 
   @override
   BuildCast rebuild(void Function(BuildCastBuilder) updates) =>
@@ -363,8 +365,7 @@ class BuildCastBuilder implements Builder<BuildCast, BuildCastBuilder> {
   _$BuildCast _build() {
     final _$result = _$v ??
         new _$BuildCast._(
-            adult: BuiltValueNullFieldError.checkNotNull(
-                adult, r'BuildCast', 'adult'),
+            adult: adult,
             gender: gender,
             id: id,
             knownfordepartmnet: knownfordepartmnet,

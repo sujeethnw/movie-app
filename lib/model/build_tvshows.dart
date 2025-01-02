@@ -24,14 +24,14 @@ abstract class BuildTvshows
 
   static Serializer<BuildTvshows> get serializer => _$buildTvshowsSerializer;
 
-  bool get adult;
+  bool? get adult;
 
   @BuiltValueField(
     wireName: 'backdrop_path',
   )
   String? get backdroppath;
 
-  BuiltList<int> get genreids;
+  BuiltList<int>? get genreids;
 
   int? get id;
 

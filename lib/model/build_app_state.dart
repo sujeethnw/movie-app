@@ -41,4 +41,6 @@ abstract class BuildAppState
   BuiltList<BuildTvshows>? get TvShowsCast;
 
   BuiltList<BuildMovie> get Popular;
+  BuildMovie? get movieforid;
+  BuildCast? get castforid;
 }

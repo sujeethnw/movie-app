@@ -20,7 +20,7 @@ abstract class BuildCast implements Built<BuildCast, BuildCastBuilder> {
 
   static Serializer<BuildCast> get serializer => _$buildCastSerializer;
 
-  bool get adult;
+  bool? get adult;
 
   int? get gender;
 

@@ -15,7 +15,7 @@ class MovieDetails extends StatelessWidget {
       onTap: () {
         Navigator.push(context,
             MaterialPageRoute(builder: (BuildContext context) {
-          return CastDetailScreen();
+          return CastDetailScreen(id:0,);
         }));
       },
       child: Column(

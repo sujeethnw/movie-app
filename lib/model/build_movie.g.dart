@@ -17,12 +17,7 @@ class _$BuildMovieSerializer implements StructuredSerializer<BuildMovie> {
   @override
   Iterable<Object?> serialize(Serializers serializers, BuildMovie object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[
-      'genre_ids',
-      serializers.serialize(object.genreIds,
-          specifiedType:
-              const FullType(BuiltList, const [const FullType(int)])),
-    ];
+    final result = <Object?>[];
     Object? value;
     value = object.adult;
     if (value != null) {
@@ -37,6 +32,14 @@ class _$BuildMovieSerializer implements StructuredSerializer<BuildMovie> {
         ..add('backdrop_path')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
+    }
+    value = object.genreIds;
+    if (value != null) {
+      result
+        ..add('genre_ids')
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(int)])));
     }
     value = object.id;
     if (value != null) {
@@ -75,8 +78,8 @@ class _$BuildMovieSerializer implements StructuredSerializer<BuildMovie> {
     if (value != null) {
       result
         ..add('poster_path')
-        ..add(
-            serializers.serialize(value, specifiedType: const FullType(bool)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.releasedate;
     if (value != null) {
@@ -160,7 +163,7 @@ class _$BuildMovieSerializer implements StructuredSerializer<BuildMovie> {
           break;
         case 'poster_path':
           result.posterpath = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool?;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'release_date':
           result.releasedate = serializers.deserialize(value,
@@ -195,7 +198,7 @@ class _$BuildMovie extends BuildMovie {
   @override
   final String? backdroppath;
   @override
-  final BuiltList<int> genreIds;
+  final BuiltList<int>? genreIds;
   @override
   final int? id;
   @override
@@ -207,7 +210,7 @@ class _$BuildMovie extends BuildMovie {
   @override
   final int? popularity;
   @override
-  final bool? posterpath;
+  final String? posterpath;
   @override
   final int? releasedate;
   @override
@@ -225,7 +228,7 @@ class _$BuildMovie extends BuildMovie {
   _$BuildMovie._(
       {this.adult,
       this.backdroppath,
-      required this.genreIds,
+      this.genreIds,
       this.id,
       this.originalanguage,
       this.originaltitle,
@@ -237,9 +240,7 @@ class _$BuildMovie extends BuildMovie {
       this.video,
       this.voteaverage,
       this.votecount})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(genreIds, r'BuildMovie', 'genreIds');
-  }
+      : super._();
 
   @override
   BuildMovie rebuild(void Function(BuildMovieBuilder) updates) =>
@@ -347,9 +348,9 @@ class BuildMovieBuilder implements Builder<BuildMovie, BuildMovieBuilder> {
   int? get popularity => _$this._popularity;
   set popularity(int? popularity) => _$this._popularity = popularity;
 
-  bool? _posterpath;
-  bool? get posterpath => _$this._posterpath;
-  set posterpath(bool? posterpath) => _$this._posterpath = posterpath;
+  String? _posterpath;
+  String? get posterpath => _$this._posterpath;
+  set posterpath(String? posterpath) => _$this._posterpath = posterpath;
 
   int? _releasedate;
   int? get releasedate => _$this._releasedate;
@@ -378,7 +379,7 @@ class BuildMovieBuilder implements Builder<BuildMovie, BuildMovieBuilder> {
     if ($v != null) {
       _adult = $v.adult;
       _backdroppath = $v.backdroppath;
-      _genreIds = $v.genreIds.toBuilder();
+      _genreIds = $v.genreIds?.toBuilder();
       _id = $v.id;
       _originalanguage = $v.originalanguage;
       _originaltitle = $v.originaltitle;
@@ -416,7 +417,7 @@ class BuildMovieBuilder implements Builder<BuildMovie, BuildMovieBuilder> {
           new _$BuildMovie._(
               adult: adult,
               backdroppath: backdroppath,
-              genreIds: genreIds.build(),
+              genreIds: _genreIds?.build(),
               id: id,
               originalanguage: originalanguage,
               originaltitle: originaltitle,
@@ -432,7 +433,7 @@ class BuildMovieBuilder implements Builder<BuildMovie, BuildMovieBuilder> {
       late String _$failedField;
       try {
         _$failedField = 'genreIds';
-        genreIds.build();
+        _genreIds?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'BuildMovie', _$failedField, e.toString());

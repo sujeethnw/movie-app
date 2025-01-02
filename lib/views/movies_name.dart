@@ -1,33 +1,50 @@
+import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
+import 'package:movies_app/model/build_app_state.dart';
+import 'package:movies_app/model/build_cast.dart';
+import 'package:movies_app/views/mixins.dart';
 import 'package:movies_app/model/build_movie.dart';
+import 'package:provider/provider.dart';
 import 'components/movie_details.dart';
 //import 'package:movies_app/core/';
 
 class MoviesName extends StatefulWidget {
-  const MoviesName({super.key});
+  const MoviesName({super.key, required this.id});
+  final int id;
+
+  static var length;
 
   @override
   State<MoviesName> createState() => _MoviesNameState();
 }
 
-class _MoviesNameState extends State<MoviesName> {
+class _MoviesNameState extends State<MoviesName> with MovieMixin{
   @override
-  List casts = [
-    ('https://images.filmibeat.com/ph-big/2022/07/dhanush_165778903530.jpg'),
-    ('https://images.filmibeat.com/ph-big/2022/07/dhanush_165778903530.jpg')
-  ];
-  List<String> name = ['DHANUSH', 'DHANUSH'];
+
 
   var preferredSize;
+  bool loading=false;
+  Future<void> getData() async{
+    setState(() {
+      loading=true;
+    });
+    await getMovieForID(id:widget.id);
+    await getCastMovie(id:widget.id);
+    setState(() {
+      loading=false;
+    });}
 
   Widget build(BuildContext context) {
+    final movies=context.watch<BuildAppState>().movieforid;
+    final casts=context.watch<BuildAppState>().CastMovie;
+
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         toolbarHeight: 300,
         flexibleSpace: Image(
-          image: NetworkImage(
-              'https://images.filmibeat.com/ph-big/2022/07/dhanush_165778903530.jpg'),
+          image: NetworkImage('https://image.tmdb.org/t/p/w500/${movies?.posterpath??''}'),
           fit: BoxFit.fill,
         ),
         title: Stack(
@@ -46,7 +63,7 @@ class _MoviesNameState extends State<MoviesName> {
                     Align(
                         alignment: Alignment.center,
                         child: Text(
-                          'POLLADHAVAN',
+                          movies?.title?? '',
                           style: TextStyle(color: Colors.deepOrange),
                         )),
                     //FilledButton(onPressed: () {}, child: Text('7.5'))
@@ -70,18 +87,18 @@ class _MoviesNameState extends State<MoviesName> {
               "SYNOPSIS",
               style: TextStyle(fontSize: 30),
             ),),
-          Text(
-              'Prabhu is a young man whose life significantly improves after buying a bike, as he gets a decent job and gets closer to his crush Hema. Things take a deadly turn after his bike gets stolen, prompting Prabhu to relentlessly search for it with the help of his friends. This hunt eventually pits him against the underworld as he learns his bike was used to transport drugs. Prabhu must prepare for the worst and protect his family from an egoistical gangster, while continuing the search for his beloved bike'),
+          Text(movies?.overview??''),
           Text('Cast'),
           Expanded(
               child: ListView.builder(
-                  itemCount: casts.length,
+                  itemCount: casts?.length,
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
-                    final cast = casts[index];
-                    final names = name[index];
-                    return MovieDetails(castName: names, image: cast);
+                    final ca=casts?[index];
+                    final name = ca?.name;
+                    final cast = ca?.profilepath;
+                    return MovieDetails(castName: name??'', image: cast??'');
                   })),
 
           const Text('ABOUT',style: TextStyle(fontSize: 15),),
@@ -90,7 +107,7 @@ class _MoviesNameState extends State<MoviesName> {
               Row(
                 children: [
                   const Text('adult'),
-                  Text(BuildMovie().adult.toString()),
+                  Text(movies?.adult.toString()??''),
                 ],
               ),
               /* Row(
@@ -103,19 +120,19 @@ class _MoviesNameState extends State<MoviesName> {
               Row(
                 children: [
                   const Text('genreIDs'),
-                  Text(BuildMovie().genreIds.toString()),
+                  Text(movies?.genreIds.toString()??''),
                 ],
               ),
               Row(
                 children: [
                   const Text('id'),
-                  Text(BuildMovie().id.toString()),
+                  Text(movies?.id.toString()??''),
                 ],
               ),
               Row(
                 children: [
                   const Text('originalanguage'),
-                  Text(BuildMovie().originalanguage.toString()),
+                  Text(movies?.originalanguage.toString()??''),
                 ],
               )
             ],

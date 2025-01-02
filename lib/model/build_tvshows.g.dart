@@ -19,24 +19,33 @@ class _$BuildTvshowsSerializer implements StructuredSerializer<BuildTvshows> {
   Iterable<Object?> serialize(Serializers serializers, BuildTvshows object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
-      'adult',
-      serializers.serialize(object.adult, specifiedType: const FullType(bool)),
-      'genreids',
-      serializers.serialize(object.genreids,
-          specifiedType:
-              const FullType(BuiltList, const [const FullType(int)])),
       'origin_country',
       serializers.serialize(object.origincountry,
           specifiedType:
               const FullType(BuiltList, const [const FullType(String)])),
     ];
     Object? value;
+    value = object.adult;
+    if (value != null) {
+      result
+        ..add('adult')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
+    }
     value = object.backdroppath;
     if (value != null) {
       result
         ..add('backdrop_path')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
+    }
+    value = object.genreids;
+    if (value != null) {
+      result
+        ..add('genreids')
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(int)])));
     }
     value = object.id;
     if (value != null) {
@@ -140,7 +149,7 @@ class _$BuildTvshowsSerializer implements StructuredSerializer<BuildTvshows> {
       switch (key) {
         case 'adult':
           result.adult = serializers.deserialize(value,
-              specifiedType: const FullType(bool))! as bool;
+              specifiedType: const FullType(bool)) as bool?;
           break;
         case 'backdrop_path':
           result.backdroppath = serializers.deserialize(value,
@@ -219,11 +228,11 @@ class _$BuildTvshowsSerializer implements StructuredSerializer<BuildTvshows> {
 
 class _$BuildTvshows extends BuildTvshows {
   @override
-  final bool adult;
+  final bool? adult;
   @override
   final String? backdroppath;
   @override
-  final BuiltList<int> genreids;
+  final BuiltList<int>? genreids;
   @override
   final int? id;
   @override
@@ -257,9 +266,9 @@ class _$BuildTvshows extends BuildTvshows {
       (new BuildTvshowsBuilder()..update(updates))._build();
 
   _$BuildTvshows._(
-      {required this.adult,
+      {this.adult,
       this.backdroppath,
-      required this.genreids,
+      this.genreids,
       this.id,
       required this.origincountry,
       this.originallanguage,
@@ -275,9 +284,6 @@ class _$BuildTvshows extends BuildTvshows {
       this.creditid,
       this.episodecount})
       : super._() {
-    BuiltValueNullFieldError.checkNotNull(adult, r'BuildTvshows', 'adult');
-    BuiltValueNullFieldError.checkNotNull(
-        genreids, r'BuildTvshows', 'genreids');
     BuiltValueNullFieldError.checkNotNull(
         origincountry, r'BuildTvshows', 'origincountry');
   }
@@ -442,7 +448,7 @@ class BuildTvshowsBuilder
     if ($v != null) {
       _adult = $v.adult;
       _backdroppath = $v.backdroppath;
-      _genreids = $v.genreids.toBuilder();
+      _genreids = $v.genreids?.toBuilder();
       _id = $v.id;
       _origincountry = $v.origincountry.toBuilder();
       _originallanguage = $v.originallanguage;
@@ -481,10 +487,9 @@ class BuildTvshowsBuilder
     try {
       _$result = _$v ??
           new _$BuildTvshows._(
-              adult: BuiltValueNullFieldError.checkNotNull(
-                  adult, r'BuildTvshows', 'adult'),
+              adult: adult,
               backdroppath: backdroppath,
-              genreids: genreids.build(),
+              genreids: _genreids?.build(),
               id: id,
               origincountry: origincountry.build(),
               originallanguage: originallanguage,
@@ -503,7 +508,7 @@ class BuildTvshowsBuilder
       late String _$failedField;
       try {
         _$failedField = 'genreids';
-        genreids.build();
+        _genreids?.build();
 
         _$failedField = 'origincountry';
         origincountry.build();

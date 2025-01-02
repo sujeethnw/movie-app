@@ -32,7 +32,7 @@ abstract class BuildMovie implements Built<BuildMovie, BuildMovieBuilder> {
   @BuiltValueField(
     wireName: 'genre_ids',
   )
-  BuiltList<int> get genreIds;
+  BuiltList<int>? get genreIds;
 
   int? get id;
 
@@ -53,7 +53,7 @@ abstract class BuildMovie implements Built<BuildMovie, BuildMovieBuilder> {
   @BuiltValueField(
     wireName: 'poster_path',
   )
-  bool? get posterpath;
+  String? get posterpath;
 
   @BuiltValueField(
     wireName: 'release_date',
